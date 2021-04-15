@@ -1,0 +1,33 @@
+{
+  "name": "day2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alihfph/M5-D2-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alihfph/M5-D2-API/issues"
+  },
+  "homepage": "https://github.com/alihfph/M5-D2-API#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-list-endpoints": "^5.0.0",
+    "express-validator": "^6.10.0",
+    "fs-extra": "^9.1.0",
+    "multer": "^1.4.2",
+    "path": "^0.12.7",
+    "uniqid": "^5.3.0",
+    "uuid": "^8.3.2"
+  }
+}
