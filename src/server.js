@@ -4,13 +4,15 @@ import cors from "cors";
 import { join } from "path";
 import filesRoutes from "./files/index.js";
 import studentsRoutes from "./students/index.js";
+import projectsRoutes from "./projects/index.js";
+import reviewsRoutes from "./reviews/index.js";
 import {
   badRequestErrorHandler,
   notFoundErrorHandler,
   forbiddenErrorHandler,
   catchAllErrorHandler,
 } from "./errorHandling.js";
-import { getCurrentFolderPath } from "./lib/fs-tools.js"
+import { getCurrentFolderPath } from "./lib/fs-tools.js";
 
 const server = express();
 const port = 3001;
@@ -21,8 +23,10 @@ const publicFolderPath = join(
 server.use(express.static(publicFolderPath));
 server.use(cors());
 server.use(express.json());
-server.use("/projects", studentsRoutes);
+server.use("/students", studentsRoutes);
+server.use("/projects", projectsRoutes);
 server.use("/files", filesRoutes);
+server.use("/reviews", reviewsRoutes);
 
 server.use(badRequestErrorHandler);
 server.use(notFoundErrorHandler);

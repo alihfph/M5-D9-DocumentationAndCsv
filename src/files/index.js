@@ -41,6 +41,20 @@ router.post(
   }
 );
 
+// router.get("/image", async (req, res) => {
+//   try {
+//     const incident = await Incident(req.params.image);
+//     if (!incident || !incident.image) {
+//       throw new Error();
+//     }
+//     //response header, use set
+//     res.set("Content-Type", "image/png");
+//     res.send(incident.image);
+//   } catch (e) {
+//     res.status(404).send();
+//   }
+// });
+
 router.get("/:fileName/download", async (req, res, next) => {
   try {
     // source (fileOnDisk, req, ...) --> destination (fileOnDisk, res, ...)
