@@ -6,6 +6,7 @@ import filesRoutes from "./files/index.js";
 import studentsRoutes from "./students/index.js";
 import projectsRoutes from "./projects/index.js";
 import reviewsRoutes from "./reviews/index.js";
+
 import {
   badRequestErrorHandler,
   notFoundErrorHandler,
@@ -15,7 +16,7 @@ import {
 import { getCurrentFolderPath } from "./lib/fs-tools.js";
 
 const server = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 const whitelist = [process.env.FE_URL_DEV, process.env.FE_URL_PROD];
 const corsOptions = {
   origin: function (origin, next) {
@@ -30,7 +31,7 @@ const corsOptions = {
   },
 };
 
-app.use(cors(corsOptions));
+server.use(cors(corsOptions));
 
 const publicFolderPath = join(
   getCurrentFolderPath(import.meta.url),
@@ -50,7 +51,7 @@ server.use(forbiddenErrorHandler);
 server.use(catchAllErrorHandler);
 
 console.log(listEndpoints(server));
-app.listen(port, () => {
+server.listen(port, () => {
   if (process.env.NODE_ENV === "production") {
     // no need to configure it manually on Heroku
     console.log("Server running on cloud on port: ", port);
