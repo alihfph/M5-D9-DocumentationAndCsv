@@ -1,6 +1,12 @@
 import express from "express";
-import { getStudents, writeStudents } from "../lib/fs-tools.js";
+import {
+  getStudents,
+  writeStudents,
+  getBooksReadStream,
+} from "../lib/fs-tools.js";
 import uniqid from "uniqid";
+import { pipeline } from "stream";
+import { Transform } from "json2csv";
 import { check, validationResult } from "express-validator";
 
 const router = express.Router();
@@ -83,6 +89,23 @@ router.delete("/:id", async (req, res, next) => {
     res.status(204).send();
   } catch (error) {
     console.log(error);
+  }
+});
+router.get("/export/csv", (req, res, next) => {
+  try {
+    const fields = ["Name", "description", "birth", "ID"];
+    const opts = { fields };
+    const json2csv = new Transform(opts);
+    res.setHeader("Content-Disposition", `attachment; filename=export.csv`);
+
+    const fileStream = getBooksReadStream();
+    pipeline(fileStream, json2csv, res, (err) => {
+      if (err) {
+        next(err);
+      }
+    });
+  } catch (error) {
+    next(error);
   }
 });
 

@@ -1,6 +1,8 @@
 import express from "express";
 import listEndpoints from "express-list-endpoints";
 import cors from "cors";
+import YAML from "yamljs";
+import swaggerUI from "swagger-ui-express";
 import { join } from "path";
 import filesRoutes from "./files/index.js";
 import studentsRoutes from "./students/index.js";
@@ -38,6 +40,12 @@ const publicFolderPath = join(
   "../public"
 );
 server.use(express.static(publicFolderPath));
+
+const swaggerDocument = YAML.load(
+  join(getCurrentFolderPath(import.meta.url), "./apiDescription.yml")
+);
+
+server.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 server.use(express.json());
 server.use("/students", studentsRoutes);

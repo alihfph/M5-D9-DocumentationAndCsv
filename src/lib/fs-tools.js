@@ -10,6 +10,9 @@ const studentsFolderPath = join(
   "../../public/img/students"
 );
 
+export const getBooksReadStream = () =>
+  fs.createReadStream(join(dataFolderPath, "students.json"));
+console.log(getBooksReadStream());
 export const getStudents = async () =>
   await readJSON(join(dataFolderPath, "students.json"));
 export const writeStudents = async (content) =>

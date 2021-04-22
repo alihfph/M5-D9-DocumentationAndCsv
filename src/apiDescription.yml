@@ -1,0 +1,318 @@
+openapi: 3.0.1
+info:
+  title: StudentPortfolio API
+  description: StudentPortfolio API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: Local server
+tags:
+  - name: students
+    description: Operations about books
+  - name: projects
+    description: Operations about users
+
+paths:
+  /students:
+    get:
+      tags:
+        - students
+      summary: Returns a list of students.
+      description: Optional extended description in CommonMark or HTML.
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter books list by category
+      responses:
+        "200": # status code
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        "500":
+          $ref: "#/components/responses/GenericServerError"
+    post:
+      tags:
+        - students
+      description: Adds a new book
+      requestBody:
+        description: The object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        "201": # status code
+          description: The ID of the newly created book
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /books/{id}:
+    get:
+      tags:
+        - students
+      summary: blabla
+      description: Retrieve single Book
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the Book to retrieve
+      responses:
+        "200": # status code
+          description: The single Book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      tags:
+        - students
+      description: Update an existing Book
+      summary: Update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the Book to update
+      requestBody:
+        description: Fields to update
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        "200": # status code
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      tags:
+        - students
+      description: Delete a specific Book by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the Book to delete
+      responses:
+        "200": # status code
+          description: The single Book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /books/upload:
+    post:
+      tags:
+        - students
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+      responses:
+        "200": # status code
+          description: Ok
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /projects:
+    get:
+      tags:
+        - projects
+      summary: Returns a list of students.
+      description: Optional extended description in CommonMark or HTML.
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter books list by category
+      responses:
+        "200": # status code
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        "500":
+          $ref: "#/components/responses/GenericServerError"
+    post:
+      tags:
+        - projects
+      description: Adds a new book
+      requestBody:
+        description: The object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        "201": # status code
+          description: The ID of the newly created book
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /projetcs/{id}:
+    get:
+      tags:
+        - projects
+      summary: blabla
+      description: Retrieve single Book
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the Book to retrieve
+      responses:
+        "200": # status code
+          description: The single Book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      tags:
+        - projects
+      description: Update an existing Book
+      summary: Update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the Book to update
+      requestBody:
+        description: Fields to update
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        "200": # status code
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      tags:
+        - projects
+      description: Delete a specific Book by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the Book to delete
+      responses:
+        "200": # status code
+          description: The single Book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  responses:
+    NotFound:
+      description: The specific resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    BadRequest:
+      description: Some problems with your request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: Bearer token missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    GenericServerError:
+      description: A problem on the server occurred
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  schemas:
+    Book:
+      type: object
+      properties:
+        asin:
+          type: string
+        title:
+          type: string
+        img:
+          type: string
+        price:
+          type: number
+        category:
+          type: string
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        surname:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
